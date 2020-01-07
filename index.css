@@ -1,0 +1,38 @@
+
+
+body {
+  background-color: #43768d;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 600px;
+}
+
+.new-note {
+  background-color: #fff;
+  padding: 10px 12px;
+  border-radius: 2px;
+
+ 
+}
+
+.new-note input {
+  width: 90%;
+  border: none;
+}
+
+.note-list {
+  margin: 40px 0;
+}
+
+.note {
+  margin-bottom: 20px;
+  background-color: #fff;
+  padding: 10px 12px;
+  border-radius: 2px;
+ 
+}
