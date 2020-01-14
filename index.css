@@ -30,9 +30,25 @@ body {
 }
 
 .note {
+  display: flex;
+  align-items: center;
   margin-bottom: 20px;
   background-color: #fff;
   padding: 10px 12px;
   border-radius: 2px;
  
 }
+
+.note_text{
+  flex: 1;
+}
+.note button{
+  background-color: transparent;
+  border: 0; 
+
+}
+
+.hidden {
+  visibility: hidden;
+}
+

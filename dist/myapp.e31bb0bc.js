@@ -31730,7 +31730,62 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"node_modules/react-dom/cjs/react-dom.development.js"}],"components/NoteList.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"node_modules/react-dom/cjs/react-dom.development.js"}],"node_modules/classnames/index.js":[function(require,module,exports) {
+var define;
+/*!
+  Copyright (c) 2017 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames () {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg) && arg.length) {
+				var inner = classNames.apply(null, arg);
+				if (inner) {
+					classes.push(inner);
+				}
+			} else if (argType === 'object') {
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if (typeof module !== 'undefined' && module.exports) {
+		classNames.default = classNames;
+		module.exports = classNames;
+	} else if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
+		// register as 'classnames', consistent with npm package name
+		define('classnames', [], function () {
+			return classNames;
+		});
+	} else {
+		window.classNames = classNames;
+	}
+}());
+
+},{}],"components/NoteList.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31740,23 +31795,46 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _classnames = _interopRequireDefault(require("classnames"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var NoteList = function NoteList(_ref) {
-  var notes = _ref.notes;
+  var notes = _ref.notes,
+      onMove = _ref.onMove;
   return _react.default.createElement("div", {
     className: "note-list"
   }, notes.map(function (note, id) {
     return _react.default.createElement("div", {
-      key: id,
+      key: note.id,
       className: "note"
-    }, note);
+    }, _react.default.createElement("span", {
+      className: "note_text"
+    }, "".concat(note.id, " - ").concat(note.text)), _react.default.createElement("button", {
+      className: (0, _classnames.default)("button", {
+        "hidden": id === 0
+      }),
+      onClick: function onClick() {
+        onMove("up", id);
+      }
+    }, _react.default.createElement("i", {
+      className: "material-icons"
+    }, "arrow_upward")), _react.default.createElement("button", {
+      className: (0, _classnames.default)("button", {
+        "hidden": id === notes.length - 1
+      }),
+      onClick: function onClick() {
+        onMove("down", id);
+      }
+    }, _react.default.createElement("i", {
+      className: "material-icons"
+    }, "arrow_downward")));
   }));
 };
 
 var _default = NoteList;
 exports.default = _default;
-},{"react":"node_modules/react/index.js"}],"components/NewNote.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","classnames":"node_modules/classnames/index.js"}],"components/NewNote.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31902,7 +31980,22 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this));
     _this.state = {
-      notes: []
+      notes: [{
+        id: 1,
+        text: "Teste 1"
+      }, {
+        id: 2,
+        text: "Teste 2"
+      }, {
+        id: 3,
+        text: "Teste 3"
+      }, {
+        id: 4,
+        text: "Teste 4"
+      }, {
+        id: 5,
+        text: "Teste 5"
+      }]
     };
     return _this;
   }
@@ -31913,6 +32006,31 @@ function (_React$Component) {
       var newNotes = _toConsumableArray(this.state.notes);
 
       newNotes.push(value);
+      this.setState({
+        notes: newNotes
+      });
+    }
+  }, {
+    key: "handleMove",
+    value: function handleMove(direction, id) {
+      var newNotes = _toConsumableArray(this.state.notes); // let aux;
+
+
+      newNotes.slice(id);
+      var removeNotes = newNotes.splice(id, 1)[0];
+      console.log(removeNotes);
+
+      if (direction === "up") {
+        // aux = newNotes[id - 1]
+        // newNotes[id - 1] = newNotes[id]
+        // newNotes[id] = aux;
+        newNotes.splice(id - 1, 0, removeNotes);
+      } else {
+        newNotes.splice(id + 1, 0, removeNotes); // aux = newNotes[id + 1]
+        // newNotes[id + 1] = newNotes[id]
+        // newNotes[id] = aux;
+      }
+
       this.setState({
         notes: newNotes
       });
@@ -31930,7 +32048,8 @@ function (_React$Component) {
           return _this2.handleAddNote(e);
         }
       }), _react.default.createElement(_NoteList.default, {
-        notes: this.state.notes
+        notes: this.state.notes,
+        onMove: this.handleMove.bind(this)
       }));
     }
   }]);
@@ -32053,7 +32172,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34899" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40553" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

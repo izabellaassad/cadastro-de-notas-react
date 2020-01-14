@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/izabellaassad/myapp#readme",
   "dependencies": {
+    "classnames": "^2.2.6",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   },
