@@ -31823,24 +31823,42 @@ function (_React$Component) {
   _inherits(Note, _React$Component);
 
   function Note() {
+    var _this;
+
     _classCallCheck(this, Note);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Note).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Note).call(this));
+    _this.state = {
+      isEditing: false
+    };
+    return _this;
   }
 
   _createClass(Note, [{
+    key: "handleEdit",
+    value: function handleEdit() {
+      this.setState({
+        isEditing: !this.state.isEditing
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var _this$props = this.props,
           id = _this$props.id,
           note = _this$props.note,
           onDelete = _this$props.onDelete,
           onMove = _this$props.onMove,
           total = _this$props.total;
+      var isEditing = this.state.isEditing;
       return _react.default.createElement("div", {
         key: id,
         className: "note"
-      }, _react.default.createElement("span", {
+      }, isEditing ? _react.default.createElement("input", {
+        type: "text"
+      }) : _react.default.createElement("span", {
         className: "note_text"
       }, "".concat(note.id, " - ").concat(note.text)), _react.default.createElement("button", {
         className: (0, _classnames.default)("button", {
@@ -31861,6 +31879,12 @@ function (_React$Component) {
       }, _react.default.createElement("i", {
         className: "material-icons"
       }, "arrow_downward")), _react.default.createElement("button", {
+        onClick: function onClick() {
+          _this2.handleEdit();
+        }
+      }, _react.default.createElement("i", {
+        className: "material-icons"
+      }, "edit")), _react.default.createElement("button", {
         onClick: function onClick() {
           onDelete(note.id);
         }
@@ -32307,7 +32331,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40143" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39765" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
