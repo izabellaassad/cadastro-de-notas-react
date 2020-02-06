@@ -1,24 +1,34 @@
-import React from "react";
+import React from "react"
 
 export default class NewNote extends React.Component {
     constructor() {
-        super();
+        super()
         this.state = {
             text: ""
 
-        };
+        }
     }
 
     onChange(event) {
+        console.log(event.target.value)
         this.setState({
             text: event.target.value
-        });
+
+        })
+    }
+
+
+
+    onAddNote(e) {
+        this.setState({ text: e }, () => {
+            this.props.onAddNote(e)
+        })
+
     }
 
     render() {
-        const { onAddNote } = this.props;
-        const {
-        } = this.state;
+        // const { onAddNote } = this.props
+        const { } = this.state
 
         return (
             <div className="new-note">
@@ -30,15 +40,15 @@ export default class NewNote extends React.Component {
                     onChange={e => this.onChange(e)}
                     onKeyPress={event => {
                         if (event.key === "Enter") {
-                            onAddNote(event.target.value);
+                            this.onAddNote(event.target.value)
                             this.setState({
                                 text: "",
 
-                            });
+                            })
                         }
                     }}
                 />
             </div>
-        );
+        )
     }
 }

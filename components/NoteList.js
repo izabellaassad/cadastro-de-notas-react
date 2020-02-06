@@ -1,35 +1,30 @@
-import React from "react";
-import classNames from "classnames";
 
+import React from "react"
+import Note from './Note'
 
-const NoteList = ({ notes, onMove }) => (
-    <div className="note-list">
-        {notes.map((note, id) => (
-            <div key={note.id} className="note">
-                <span className="note_text">{`${note.id} - ${note.text}`}</span>
-                <button className={classNames("button", {
-                    "hidden": id === 0
-                })}
-                    onClick={() => {
-                        onMove("up", id);
-                    }}>
-                    <i className="material-icons">arrow_upward</i></button>
+export default class NoteList extends React.Component {
 
-                <button className={classNames("button", {
-                    "hidden": id === notes.length - 1
-                })}
-                    onClick={() => {
-                        onMove("down", id);
-                    }}>
-                    <i className="material-icons">arrow_downward</i>
-                </button>
+    render() {
 
+        const { notes, onMove, onDelete } = this.props
+        return (
+            <div className="note-list">
+                {notes.map((note, id) => (
+                    <Note
+                        key={id}
+                        note={note}
+                        onMove={onMove}
+                        onDelete={onDelete}
+                        id={id}
+                        total={notes.length}
+                    />
 
+                ))}
             </div>
 
+        )
 
-        ))}
-    </div>
-);
+    }
 
-export default NoteList;
+
+}
